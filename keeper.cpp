@@ -160,7 +160,7 @@ Keeper& Keeper::edit_element(int n) {
         temp = temp->next;
     }
 
-    if (temp->data) {  // Проверяем, инициализирован ли объект
+    if (temp->data) {
         std::cout << "Editing element at position " << n << std::endl;
         temp->data->change_info(); 
     } else {

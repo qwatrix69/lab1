@@ -1,7 +1,6 @@
 #include "cargomover.h"
 #include "dimensions.h"
 #include "cities.h"
-#include "dimensions.h"
 #include <cstdlib>
 #pragma once
 class Plane: public Cargomover

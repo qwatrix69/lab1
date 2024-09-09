@@ -68,8 +68,8 @@ int main() {
                     else if (add_choice == 2) {  // Добавление поезда
                         string name;
                         int year;
-                        string route;
-                        int wagons;
+                        Cities cities;
+                        int vans;
                         float volume;
 
                         cout << "Введите название поезда: ";
@@ -78,15 +78,16 @@ int main() {
                         cin >> year;
                         cin.ignore(); // Игнорируем символ новой строки
                         cout << "Введите полный маршрут: ";
-                        getline(cin, route);
+                        cities.input_cities();
                         cout << "Введите количество вагонов: ";
-                        cin >> wagons;
+                        cin >> vans;
                         cout << "Введите объем груза: ";
                         cin >> volume;
                         cin.ignore(); // Игнорируем символ новой строки
 
-                        // Train* train = new Train(name, year, route, wagons, volume);
+                        Train* train = new Train(name, year, cities, vans, volume);
                         keeper++; // Добавляем объект в контейнер
+                        keeper.get_tail()->data = train;
                     }
                     else if (add_choice == 3) {  // Добавление автомобиля
                         int year;
