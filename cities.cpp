@@ -92,11 +92,13 @@ void Cities::display_cities() {
 
 
 void Cities::clear_cities() {
-    for (int i = 0; i < size; ++i) {
-        free(cities[i]);
+    if (cities) {
+        for (int i = 0; i < size; ++i) {
+            delete[] cities[i];  // Освобождаем память для каждой строки
+        }
+        delete[] cities;  // Освобождаем память для массива указателей
+        cities = nullptr; // Обнуляем указатель
     }
-    free(cities);   
-    cities = nullptr;
     size = 0;
     capacity = 0;
 }
@@ -128,24 +130,30 @@ void Cities::save_to_file(std::ostream& out) const {
 }
 
 void Cities::load_from_file(std::istream& in) {
-    // Сначала считываем размер
+    if (!in) {
+        std::cerr << "Ошибка открытия потока для чтения!" << std::endl;
+        return;
+    }
+
     in >> size;
     in.ignore();  // Игнорируем символ новой строки
 
-    // Очищаем текущий массив городов, если он был
-    clear_cities();
+    clear_cities();  // Очищаем предыдущие данные
 
-    // Перевыделяем память под города
     capacity = size;
-    cities = new char*[capacity];
+    cities = new char*[capacity];  // Выделяем память для нового массива
 
-    // Считываем каждый город
     for (int i = 0; i < size; ++i) {
         std::string city;
-        std::getline(in, city);  // Считываем строку города
+        std::getline(in, city);
 
-        // Выделяем память под новую строку
+        if (city.empty()) {
+            std::cerr << "Ошибка: пустой город!" << std::endl;
+            clear_cities();
+            return;
+        }
+
         cities[i] = new char[city.size() + 1];
-        std::strcpy(cities[i], city.c_str());  // Копируем строку в массив
+        std::strcpy(cities[i], city.c_str());
     }
 }
