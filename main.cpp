@@ -91,15 +91,17 @@ int main() {
                     }
                     else if (add_choice == 3) {  // Добавление автомобиля
                         int year;
-                        string make, model;
+                        string name, firm, model;
                         Cities cities;
                         float volume;
 
+                        cout << "Введите название автомобиля: ";
+                        getline(cin, name);
                         cout << "Введите год выпуска: ";
                         cin >> year;
                         cin.ignore(); // Игнорируем символ новой строки
                         cout << "Введите марку автомобиля: ";
-                        getline(cin, make);
+                        getline(cin, firm);
                         cout << "Введите модель автомобиля: ";
                         getline(cin, model);
                         cout << "Введите объем груза: ";
@@ -108,8 +110,9 @@ int main() {
 
                         cities.input_cities();  // Ввод городов
 
-                        // Car* car = new Car(year, make, model, cities, volume);
+                        Car* car = new Car(name, year, firm, model, cities, volume);
                         keeper++; // Добавляем объект в контейнер
+                        keeper.get_tail()->data = car;
                     }
                 }
                 break;
