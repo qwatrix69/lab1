@@ -15,6 +15,6 @@ public:
 
     virtual void display() = 0;
     virtual void change_info() = 0;
-    // virtual void save_to_file() = 0;
-    // virtual void load_to_file() = 0;
+    virtual void save_to_file(ostream&) = 0;
+    virtual void load_from_file(istream&) = 0;
 };

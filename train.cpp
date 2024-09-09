@@ -108,3 +108,17 @@ void Train::change_info() {
             break;
     }
 }
+
+void Train::save_to_file(ostream& out) {
+    out << "Train\n";  // Маркер для типа Train
+    out << name << '\n' << year << '\n';
+    cities.save_to_file(out);
+    out << vans << '\n' << volume << '\n';
+}
+
+void Train::load_from_file(istream& in) {
+    getline(in, name);
+    in >> year;
+    cities.load_from_file(in);
+    in >> vans >> volume;
+}

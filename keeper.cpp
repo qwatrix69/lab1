@@ -173,3 +173,74 @@ Keeper& Keeper::edit_element(int n) {
 Element* Keeper::get_tail() {
     return this->tail;
 }
+
+void Keeper::save_to_file(const string& filename) {
+    ofstream out(filename);
+    Element* current = head;
+    while (current != nullptr) {
+        current->data->save_to_file(out);
+        current = current->next;
+    }
+    out.close();
+}
+
+void Keeper::load_from_file(const string& filename) {
+    ifstream in(filename);
+    if (!in) {
+        cerr << "Ошибка открытия файла для загрузки!" << std::endl;
+        return;
+    }
+
+    string marker;
+    while (getline(in, marker)) {
+        // Удаление символа новой строки, если он есть
+        if (!marker.empty() && marker.back() == '\r') {
+            marker.pop_back(); // Это нужно для удаления символа возврата каретки, если файл Windows-формата
+        }
+
+        Cargomover* mover = nullptr;
+        cout << "Чтение маркера: " << marker << endl; // Для отладки — какой маркер читаем
+
+        // Определяем тип объекта по маркеру и создаём соответствующий объект
+        if (marker == "Plane") {
+            mover = new Plane();
+        } else if (marker == "Train") {
+            mover = new Train();
+        } else if (marker == "Car") {
+            mover = new Car();
+        } else {
+            std::cerr << "Неизвестный тип объекта: " << marker << std::endl;
+            continue;  // Пропускаем неизвестные объекты
+        }
+
+        // Загружаем данные для созданного объекта
+        if (mover) {
+            mover->load_from_file(in);  // Загружаем данные объекта из потока
+            cout << "Объект добавлен в контейнер" << endl;
+            this->add(mover);           // Добавляем объект в контейнер
+        }
+    }
+
+    in.close();
+}
+
+
+
+void Keeper::add(Cargomover* mover) {
+    // Создаем новый элемент списка
+    Element* newElement = new Element;
+    newElement->data = mover;  // Присваиваем объект
+    newElement->next = nullptr;
+
+    // Если контейнер пуст, делаем новый элемент первым и последним
+    if (head == nullptr) {
+        head = tail = newElement;
+    } else {
+        // Добавляем элемент в конец списка
+        tail->next = newElement;
+        tail = newElement;
+    }
+
+    // Увеличиваем счетчик количества объектов
+    count++;
+}

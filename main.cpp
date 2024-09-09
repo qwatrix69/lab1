@@ -62,8 +62,9 @@ int main() {
                         cities.input_cities();          // Ввод городов
 
                         Plane* plane = new Plane(name, type, volume, dimensions, cities);
-                        keeper++; // Добавляем объект в контейнер
-                        keeper.get_tail()->data = plane;
+                        //keeper++; // Добавляем объект в контейнер
+                        //keeper.get_tail()->data = plane;
+                        keeper.add(plane);
                     }
                     else if (add_choice == 2) {  // Добавление поезда
                         string name;
@@ -86,8 +87,9 @@ int main() {
                         cin.ignore(); // Игнорируем символ новой строки
 
                         Train* train = new Train(name, year, cities, vans, volume);
-                        keeper++; // Добавляем объект в контейнер
-                        keeper.get_tail()->data = train;
+                        //keeper++; // Добавляем объект в контейнер
+                        //keeper.get_tail()->data = train;
+                        keeper.add(train);
                     }
                     else if (add_choice == 3) {  // Добавление автомобиля
                         int year;
@@ -111,8 +113,9 @@ int main() {
                         cities.input_cities();  // Ввод городов
 
                         Car* car = new Car(name, year, firm, model, cities, volume);
-                        keeper++; // Добавляем объект в контейнер
-                        keeper.get_tail()->data = car;
+                        //keeper++; // Добавляем объект в контейнер
+                        //keeper.get_tail()->data = car;
+                        keeper.add(car);
                     }
                 }
                 break;
@@ -135,10 +138,10 @@ int main() {
                 keeper.display_keeper();  // Отображение списка транспорта
                 break;
             case 5:
-                // keeper.refresh(keeper);  // Сохранение в файл
+                keeper.save_to_file("out.csv");  // Сохранение в файл
                 break;
             case 6:
-                // keeper.recovery(keeper);  // Загрузка из файла
+                keeper.load_from_file("in.csv");  // Загрузка из файла
                 break;
             case 0:
                 cout << "Выход из программы." << endl;

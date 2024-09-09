@@ -24,3 +24,11 @@ void Dimensions::input_dimensions() {
     cout << "Введите высоту: ";
     cin >> height;
 }
+
+void Dimensions::save_to_file(ostream& out) const{
+    out << width << ' ' << height << ' ' << length << '\n';
+}
+
+void Dimensions::load_from_file(istream& in) {
+    in >> width >> height >> length;
+}

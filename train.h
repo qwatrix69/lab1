@@ -34,7 +34,7 @@ public:
 
     void display() override;
     void change_info() override;
-    //void save_to_file() override;
-    // void load_to_file() override;
+    void save_to_file(ostream&) override;
+    void load_from_file(istream&) override;
 };
 

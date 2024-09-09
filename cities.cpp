@@ -117,3 +117,35 @@ void Cities::input_cities() {
         add_city(buffer);
     }
 }
+
+void Cities::save_to_file(std::ostream& out) const {
+    // Сначала сохраняем размер массива
+    out << size << '\n';  
+    // Затем сохраняем каждый город
+    for (int i = 0; i < size; ++i) {
+        out << cities[i] << '\n';  // Записываем строку города
+    }
+}
+
+void Cities::load_from_file(std::istream& in) {
+    // Сначала считываем размер
+    in >> size;
+    in.ignore();  // Игнорируем символ новой строки
+
+    // Очищаем текущий массив городов, если он был
+    clear_cities();
+
+    // Перевыделяем память под города
+    capacity = size;
+    cities = new char*[capacity];
+
+    // Считываем каждый город
+    for (int i = 0; i < size; ++i) {
+        std::string city;
+        std::getline(in, city);  // Считываем строку города
+
+        // Выделяем память под новую строку
+        cities[i] = new char[city.size() + 1];
+        std::strcpy(cities[i], city.c_str());  // Копируем строку в массив
+    }
+}

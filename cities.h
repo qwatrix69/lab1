@@ -23,4 +23,9 @@ public:
     void input_cities();
 
     Cities& operator=(const Cities& other);
+
+    void save_to_file(ostream& out) const;
+    void load_from_file(istream& in);
+
 };
+

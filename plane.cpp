@@ -121,3 +121,18 @@ void Plane::change_info() {
             break;
     }
 }
+
+void Plane::save_to_file(ostream& out){
+        out << "Plane\n";
+        out << name << '\n' << type << '\n' << volume << '\n';
+        dimensions.save_to_file(out);
+        cities.save_to_file(out);
+    }
+
+void Plane::load_from_file(istream& in) {
+    getline(in, name);
+    getline(in, type);
+    in >> volume;
+    dimensions.load_from_file(in);
+    cities.load_from_file(in);
+}

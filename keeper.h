@@ -1,5 +1,6 @@
 #include <iostream>
 #include <string>
+#include <fstream>
 #include "cargomover.h"
 #include "plane.h"
 #include "car.h"
@@ -27,6 +28,7 @@ private:
     Keeper& read_car(Keeper& K2);
     Keeper& read_train(Keeper& K2);
 
+
 public:
     Keeper();
     Keeper(Element* h, Element* t, int c);
@@ -43,9 +45,13 @@ public:
     friend Keeper& operator--(Keeper& K); // Удаление с конца
     friend Keeper& operator++(Keeper& K, int); // в начало
     Keeper& operator--(int); // удаление из начала
+    void add(Cargomover* mover);
 
     Keeper& delete_element(int n);
     Keeper& edit_element(int n);
+
+    void save_to_file(const string& filename);
+    void load_from_file(const std::string& filename);
 
 
 

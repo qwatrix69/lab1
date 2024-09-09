@@ -17,4 +17,8 @@ public:
 
     void display_demensions();
     void input_dimensions();
+    
+    void save_to_file(ostream& out) const;
+    void load_from_file(istream& in);
+
 };

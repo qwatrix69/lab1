@@ -124,3 +124,17 @@ void Car::change_info() {
             break;
     }
 }
+
+void Car::save_to_file(ostream& out) {
+    out << "Train\n";  // Маркер для типа Train
+    out << name << '\n' << year << '\n' << firm << '\n' << model << '\n';
+    cities.save_to_file(out);
+    out << volume << '\n';
+}
+
+void Car::load_from_file(istream& in) {
+    getline(in, name);
+    in >> year >> firm >> model;
+    cities.load_from_file(in);
+    in >> volume;
+}
