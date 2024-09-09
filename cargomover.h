@@ -1,6 +1,6 @@
 #include <iostream>
 #include <string>
-
+#pragma once
 using namespace std;
 
 class Cargomover
@@ -13,11 +13,8 @@ public:
     Cargomover(const Cargomover& other);
     virtual ~Cargomover();
 
-    virtual void set_name() = 0;
-    virtual void get_name() = 0;
-
     virtual void display() = 0;
     virtual void change_info() = 0;
-    virtual void save_to_file() = 0;
-    virtual void load_to_file() = 0;
+    // virtual void save_to_file() = 0;
+    // virtual void load_to_file() = 0;
 };

@@ -1,3 +1,8 @@
+#include <string>
+#include <iostream>
+#pragma once
+using namespace std;
+
 class Dimensions
 {
 private:
@@ -9,4 +14,7 @@ public:
     Dimensions(float& l, float& w, float& h);
     Dimensions(const Dimensions& other);
     ~Dimensions();
+
+    void display_demensions();
+    void input_dimensions();
 };

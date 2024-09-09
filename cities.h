@@ -1,7 +1,7 @@
 #include <iostream>
 #include <cstdlib>
 #include <cstring>
-
+#pragma once
 using namespace std;
 
 class Cities
@@ -18,8 +18,9 @@ public:
 
     void resize();
     void add_city(const char* c);
-    void print_cities();
+    void display_cities();
     void clear_cities();
+    void input_cities();
 
     Cities& operator=(const Cities& other);
 };

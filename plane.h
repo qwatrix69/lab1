@@ -3,7 +3,7 @@
 #include "cities.h"
 #include "dimensions.h"
 #include <cstdlib>
-
+#pragma once
 class Plane: public Cargomover
 {
 private:
@@ -18,24 +18,24 @@ public:
     Plane(const Plane& other);
     ~Plane();
 
-    void set_name() const;
-    void get_name() const;
+    void set_name(string n);
+    string get_name();
 
-    void set_type() const;
-    void get_type() const;
+    void set_type(string t);
+    string get_type();
 
-    void set_volume() const;
-    void get_volume() const;
+    void set_volume(float v);
+    float get_volume();
     
-    void set_dimensions() const;
-    void get_dimensions() const;
+    void set_dimensions(Dimensions d);
+    Dimensions get_dimensions();
 
-    void set_cities() const;
-    void get_cities() const;
+    void set_cities(Cities c);
+    Cities get_cities();
 
     void display() override;
     void change_info() override;
-    void save_to_file() override;
-    void load_to_file() override;
+    //void save_to_file() override;
+    // void load_to_file() override;
 };
 

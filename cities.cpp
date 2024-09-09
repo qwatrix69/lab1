@@ -84,7 +84,7 @@ void Cities::add_city(const char* c) {
     ++size;
 }
 
-void Cities::print_cities() {
+void Cities::display_cities() {
     for (int i = 0; i < size; ++i) {
             cout << (i + 1) << ". " << cities[i] << endl;
         }
@@ -101,3 +101,19 @@ void Cities::clear_cities() {
     capacity = 0;
 }
 
+void Cities::input_cities() {
+    clear_cities();  
+
+    int num_cities;
+    cout << "Введите количество городов для добавления: ";
+    cin >> num_cities;
+    cin.ignore();
+
+    for (int i = 0; i < num_cities; ++i) {
+        char buffer[100];
+        cout << "Введите название города #" << (i + 1) << ": ";
+        cin.getline(buffer, 100);
+
+        add_city(buffer);
+    }
+}
