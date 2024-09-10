@@ -9,20 +9,32 @@ Dimensions::Dimensions(const Dimensions& other) : length(other.length), width(ot
 Dimensions::~Dimensions() {}
     
 void Dimensions::display_demensions() {
-    cout << "Длина" << this->length << endl;
-    cout << "Ширина" << this->width << endl;
-    cout << "высота" << this->height << endl;
+    cout << "Длина: " << this->length << endl;
+    cout << "Ширина: " << this->width << endl;
+    cout << "Высота: " << this->height;
 }
 
 void Dimensions::input_dimensions() {
     cout << "Введите длину: ";
-    cin >> length;
-    
+    while (!(cin >> length)) {
+        cin.clear();
+        cin.ignore();
+        cout << "Некорректный ввод. Введите длину: ";
+    }
+
     cout << "Введите ширину: ";
-    cin >> width;
-    
+    while (!(cin >> width)) {
+        cin.clear();
+        cin.ignore();
+        cout << "Некорректный ввод. Введите ширину: ";
+    }
+
     cout << "Введите высоту: ";
-    cin >> height;
+    while (!(cin >> height)) {
+        cin.clear();
+        cin.ignore();
+        cout << "Некорректный ввод. Введите высоту: ";
+    }
 }
 
 void Dimensions::save_to_file(ostream& out) const{

@@ -1,7 +1,9 @@
+#pragma once
+
+#include <cstdlib>
+
 #include "cargomover.h"
 #include "cities.h"
-#include <cstdlib>
-#pragma once
 
 class Train: public Cargomover
 {

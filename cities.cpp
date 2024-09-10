@@ -5,7 +5,7 @@ Cities::Cities() : cities(nullptr), size(0), capacity(0) {}
 Cities::Cities(int& c) : size(c), capacity(c) {
     cities = (char**)calloc(c, sizeof(char*));
         if (!cities) {
-            cerr << "Ошибка выделения памяти!" << std::endl;
+            cerr << "Ошибка выделения памяти!" << endl;
             exit(1);
         }
 }
@@ -94,10 +94,10 @@ void Cities::display_cities() {
 void Cities::clear_cities() {
     if (cities) {
         for (int i = 0; i < size; ++i) {
-            delete[] cities[i];  // Освобождаем память для каждой строки
+            free(cities[i]);
         }
-        delete[] cities;  // Освобождаем память для массива указателей
-        cities = nullptr; // Обнуляем указатель
+        free(cities);
+        cities = nullptr;
     }
     size = 0;
     capacity = 0;
@@ -107,53 +107,48 @@ void Cities::input_cities() {
     clear_cities();  
 
     int num_cities;
-    cout << "Введите количество городов для добавления: ";
+    cout << "Введите количество городов: ";
     cin >> num_cities;
-    cin.ignore();
+    cin.ignore();  // Очистка буфера ввода
 
     for (int i = 0; i < num_cities; ++i) {
-        char buffer[100];
+        string city;
         cout << "Введите название города #" << (i + 1) << ": ";
-        cin.getline(buffer, 100);
+        getline(cin, city);
 
-        add_city(buffer);
+        add_city(city.c_str());
     }
 }
 
-void Cities::save_to_file(std::ostream& out) const {
-    // Сначала сохраняем размер массива
+void Cities::save_to_file(ostream& out) const {
     out << size << '\n';  
-    // Затем сохраняем каждый город
     for (int i = 0; i < size; ++i) {
-        out << cities[i] << '\n';  // Записываем строку города
+        out << cities[i] << '\n';
     }
 }
 
-void Cities::load_from_file(std::istream& in) {
+void Cities::load_from_file(istream& in) {
     if (!in) {
-        std::cerr << "Ошибка открытия потока для чтения!" << std::endl;
+        cerr << "Ошибка открытия потока для чтения!" << endl;
         return;
     }
 
-    in >> size;
-    in.ignore();  // Игнорируем символ новой строки
+    clear_cities();  
 
-    clear_cities();  // Очищаем предыдущие данные
+    int num_cities;
+    in >> num_cities;
+    in.ignore();
 
-    capacity = size;
-    cities = new char*[capacity];  // Выделяем память для нового массива
-
-    for (int i = 0; i < size; ++i) {
-        std::string city;
-        std::getline(in, city);
-
-        if (city.empty()) {
-            std::cerr << "Ошибка: пустой город!" << std::endl;
-            clear_cities();
-            return;
+    for (int i = 0; i < num_cities + 1; ++i) {
+        string city;
+        if (getline(in, city)) {
+            if (!city.empty()) {
+                add_city(city.c_str());
+            } else {
+                continue;
+            }
+        } else {
+            cerr << "Ошибка при чтении города" << endl;
         }
-
-        cities[i] = new char[city.size() + 1];
-        std::strcpy(cities[i], city.c_str());
     }
 }

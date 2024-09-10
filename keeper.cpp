@@ -1,17 +1,31 @@
 #include "keeper.h"
 
-Keeper::Keeper() : head(nullptr), tail(nullptr), count(0) {}
+void display_add_menu();
 
-Keeper::Keeper(Element* h, Element* t, int c) : head(h), tail(t), count(c) {}
+Keeper::Keeper() : head(nullptr), tail(nullptr), count(0) {cout << "Вызван конструктор без параметров для Keeper класса\n";}
 
-Keeper::Keeper(Keeper& other) : head(other.head), tail(other.tail), count(other.count) {}
+Keeper::Keeper(Element* h, Element* t, int c) : head(h), tail(t), count(c) {cout << "Вызван конструктор с параметрами для Keeper класса\n";}
 
-Keeper::~Keeper() {delete_all();}
+Keeper::Keeper(Keeper& other) : head(other.head), tail(other.tail), count(other.count) {
+    cout << "Вызван конструктор копирования для Keeper класса\n";
+}
+
+Keeper::~Keeper() {
+    cout << "Вызван деструктор для Keeper класса\n";
+    delete_all();
+    }
 
 void Keeper::delete_head() {
-    Element* temp = head;
-    head = head->next;
-    delete temp;
+    if (head) {
+        Element* temp = head;
+        head = head->next;
+        delete temp->data;
+        delete temp;
+        count--;
+        if (count == 0) {
+            tail = nullptr;
+        }
+    }
 }
 
 void Keeper::delete_all() {
@@ -24,17 +38,16 @@ void Keeper::display_keeper() {
     Element* temp = head;
 
     if (count == 0) {
-        cout << "The list is empty" << endl;
+        cout << "Данных нет" << endl;
         return;
     }
-    cout << "Head of the list" << endl;
     int i = 0;
     while (temp != 0) {
         cout << i + 1 <<" - ";
-        if (temp->data) {  // Проверяем, инициализирован ли объект
+        if (temp->data) {
             temp->data->display(); 
         } else {
-            cout << "Empty data";
+            cout << "Данных нет";
         }
         cout << " " << endl;;
         temp = temp->next;
@@ -42,87 +55,211 @@ void Keeper::display_keeper() {
     }
 }
 
-
 int Keeper::get_count() {
     return count;
 }
 
 Keeper& Keeper::operator++() {
-    Element* newElement = new Element;
-    newElement->data = nullptr;
-    newElement->next = nullptr;
+    int add_choice = -1;
+    while (add_choice != 0) {
+        display_add_menu();
+        cin >> add_choice;
+        cin.ignore();
 
-    if (tail == nullptr) {
-        head = tail = newElement;
-    } else {
-        tail->next = newElement;
-        tail = newElement;
+        if (add_choice == 1) {
+            string name, type;
+            float volume;
+            Dimensions dimensions;
+            Cities cities;
+
+            cout << "Введите название самолета: ";
+            getline(cin, name);
+            cout << "Введите тип самолета: ";
+            getline(cin, type);
+            cout << "Введите объем груза: ";
+            cin >> volume;
+            cin.ignore();
+
+            dimensions.input_dimensions();
+            cin.ignore();
+            cities.input_cities();
+            Plane* plane = new Plane(name, type, volume, dimensions, cities);
+            add_to_start(plane);
+        }
+        else if (add_choice == 2) {
+            string name;
+            int year, vans;
+            Cities cities;
+            float volume;
+
+            cout << "Введите название поезда: ";
+            getline(cin, name);
+            cout << "Введите год выпуска: ";
+            cin >> year;
+            cin.ignore();
+            cout << "Введите полный маршрут: ";
+            cities.input_cities();
+            cout << "Введите количество вагонов: ";
+            cin >> vans;
+            cout << "Введите объем груза: ";
+            cin >> volume;
+            cin.ignore();
+
+            Train* train = new Train(name, year, cities, vans, volume);
+            add_to_start(train);
+        }
+        else if (add_choice == 3) {
+            int year;
+            string name, firm, model;
+            Cities cities;
+            float volume;
+
+            cout << "Введите название автомобиля: ";
+            getline(cin, name);
+            cout << "Введите год выпуска: ";
+            cin >> year;
+            cin.ignore();
+            cout << "Введите марку автомобиля: ";
+            getline(cin, firm);
+            cout << "Введите модель автомобиля: ";
+            getline(cin, model);
+            cout << "Введите объем груза: ";
+            cin >> volume;
+            cin.ignore(); 
+
+            cities.input_cities();
+
+            Car* car = new Car(name, year, firm, model, cities, volume);
+            add_to_start(car);
+        }
     }
-    
-    count++;
     return *this;
 }
 
 
-Keeper& operator--(Keeper& K) {
-    if (K.count == 0) {
-        cout << "The list is empty. Cannot delete from the end." << endl;
-        return K;
-    }
+Keeper& operator++(Keeper& K, int) {
+    int add_choice = -1;
+    while (add_choice != 0) {
+        display_add_menu();
+        cin >> add_choice;
+        cin.ignore();
 
-    if (K.count == 1) {
-        delete K.head;
-        K.head = K.tail = nullptr;
-    } else {
-        Element* temp = K.head;
-        while (temp->next != K.tail) {
-            temp = temp->next;
+        if (add_choice == 1) {
+            string name, type;
+            float volume;
+            Dimensions dimensions;
+            Cities cities;
+
+            cout << "Введите название самолета: ";
+            getline(cin, name);
+            cout << "Введите тип самолета: ";
+            getline(cin, type);
+            cout << "Введите объем груза: ";
+            cin >> volume;
+            cin.ignore();
+
+            dimensions.input_dimensions();
+            cities.input_cities();
+
+            Plane* plane = new Plane(name, type, volume, dimensions, cities);
+            K.add(plane);
         }
-        delete K.tail;
-        K.tail = temp;
-        K.tail->next = nullptr;
-    }
+        else if (add_choice == 2) {
+            string name;
+            int year, vans;
+            Cities cities;
+            float volume;
 
-    K.count--;
+            cout << "Введите название поезда: ";
+            getline(cin, name);
+            cout << "Введите год выпуска: ";
+            cin >> year;
+            cin.ignore();
+            cout << "Введите полный маршрут: ";
+            cities.input_cities();
+            cout << "Введите количество вагонов: ";
+            cin >> vans;
+            cout << "Введите объем груза: ";
+            cin >> volume;
+            cin.ignore();
+
+            Train* train = new Train(name, year, cities, vans, volume);
+            K.add(train);
+        }
+        else if (add_choice == 3) {
+            int year;
+            string name, firm, model;
+            Cities cities;
+            float volume;
+
+            cout << "Введите название автомобиля: ";
+            getline(cin, name);
+            cout << "Введите год выпуска: ";
+            cin >> year;
+            cin.ignore();
+            cout << "Введите марку автомобиля: ";
+            getline(cin, firm);
+            cout << "Введите модель автомобиля: ";
+            getline(cin, model);
+            cout << "Введите объем груза: ";
+            cin >> volume;
+            cin.ignore(); 
+
+            cities.input_cities();
+
+            Car* car = new Car(name, year, firm, model, cities, volume);
+            K.add(car);
+        }
+    }
     return K;
 }
 
-Keeper& operator++(Keeper& K, int) {
-    Element* newElement = new Element;
-    newElement->data = nullptr;
-    newElement->next = K.head;
-    
-    K.head = newElement;
+Keeper& operator--(Keeper& K) {
     if (K.count == 0) {
-        K.tail = K.head;
+        cout << "Данных нет. Невозможно удалить с начала" << endl;
+        return K;
     }
 
-    K.count++;
+    Element* temp = K.head;
+    K.head = K.head->next;
+
+    delete temp;
+    K.count--;
+
+    if (K.count == 0) {
+        K.tail = nullptr;
+    }
+
     return K;
 }
 
 Keeper& Keeper::operator--(int) {
-    if (count == 0) {
-        cout << "The list is empty. Cannot delete from the beginning." << endl;
+    if (this->count == 0) {
+        cout << "Данных нет. Невозможно удалить с конца" << endl;
         return *this;
     }
 
-    Element* temp = head;
-    head = head->next;
-
-    delete temp;
-    count--;
-
-    if (count == 0) {
-        tail = nullptr;
+    if (this->count == 1) {
+        delete this->head;
+        this->head = this->tail = nullptr;
+    } else {
+        Element* temp = this->head;
+        while (temp->next != this->tail) {
+            temp = temp->next;
+        }
+        delete this->tail->data;
+        delete this->tail;
+        this->tail = temp;
+        this->tail->next = nullptr;
     }
 
+    this->count--;
     return *this;
 }
 
 Keeper& Keeper::delete_element(int n) {
     if (n < 1 || n > count) {
-        std::cout << "Invalid index." << std::endl;
+        cout << "Неправильный индекс элемента" << endl;
         return *this;
     }
 
@@ -143,6 +280,7 @@ Keeper& Keeper::delete_element(int n) {
         tail = temp;
     }
 
+    delete toDelete->data;
     delete toDelete;
     count--;
 
@@ -151,7 +289,7 @@ Keeper& Keeper::delete_element(int n) {
 
 Keeper& Keeper::edit_element(int n) {
     if (n < 1 || n > count) {
-        std::cout << "Invalid index." << std::endl;
+        cout << "Неправильный индекс элемента" << endl;
         return *this;
     }
 
@@ -161,13 +299,17 @@ Keeper& Keeper::edit_element(int n) {
     }
 
     if (temp->data) {
-        std::cout << "Editing element at position " << n << std::endl;
+        cout << "Данные изменены для элемента с индексом" << n << endl;
         temp->data->change_info(); 
     } else {
-        std::cout << "Empty data, nothing to edit." << std::endl;
+        cout << "Данных нет" << endl;
     }
 
     return *this;
+}
+
+Element* Keeper::get_head() {
+    return this->head;
 }
 
 Element* Keeper::get_tail() {
@@ -187,21 +329,19 @@ void Keeper::save_to_file(const string& filename) {
 void Keeper::load_from_file(const string& filename) {
     ifstream in(filename);
     if (!in) {
-        cerr << "Ошибка открытия файла для загрузки!" << std::endl;
+        cerr << "Ошибка открытия файла для загрузки!" << endl;
         return;
     }
 
     string marker;
     while (getline(in, marker)) {
-        // Удаление символа новой строки, если он есть
         if (!marker.empty() && marker.back() == '\r') {
-            marker.pop_back(); // Это нужно для удаления символа возврата каретки, если файл Windows-формата
+            marker.pop_back();
         }
 
         Cargomover* mover = nullptr;
-        cout << "Чтение маркера: " << marker << endl; // Для отладки — какой маркер читаем
 
-        // Определяем тип объекта по маркеру и создаём соответствующий объект
+    
         if (marker == "Plane") {
             mover = new Plane();
         } else if (marker == "Train") {
@@ -209,38 +349,53 @@ void Keeper::load_from_file(const string& filename) {
         } else if (marker == "Car") {
             mover = new Car();
         } else {
-            std::cerr << "Неизвестный тип объекта: " << marker << std::endl;
-            continue;  // Пропускаем неизвестные объекты
+            cerr << "Неизвестный тип объекта: " << marker << endl;
+            continue; 
         }
 
-        // Загружаем данные для созданного объекта
         if (mover) {
-            mover->load_from_file(in);  // Загружаем данные объекта из потока
+            mover->load_from_file(in);
             cout << "Объект добавлен в контейнер" << endl;
-            this->add(mover);           // Добавляем объект в контейнер
+            this->add(mover);
         }
     }
 
     in.close();
 }
 
-
-
 void Keeper::add(Cargomover* mover) {
-    // Создаем новый элемент списка
     Element* newElement = new Element;
-    newElement->data = mover;  // Присваиваем объект
+    newElement->data = mover; 
     newElement->next = nullptr;
 
-    // Если контейнер пуст, делаем новый элемент первым и последним
     if (head == nullptr) {
         head = tail = newElement;
     } else {
-        // Добавляем элемент в конец списка
         tail->next = newElement;
         tail = newElement;
     }
-
-    // Увеличиваем счетчик количества объектов
+    
     count++;
+}
+
+void Keeper::add_to_start(Cargomover* mover) {
+    Element* newElement = new Element;
+    newElement->data = mover;
+    newElement->next = head; 
+
+    if (head == nullptr) {
+        tail = newElement;
+    }
+
+    head = newElement; 
+    count++;
+}
+
+void display_add_menu() {
+    cout << "\n--- Добавить транспорт ---" << endl;
+    cout << "1. Добавить самолет" << endl;
+    cout << "2. Добавить поезд" << endl;
+    cout << "3. Добавить автомобиль" << endl;
+    cout << "0. Вернуться в главное меню" << endl;
+    cout << "Выберите тип транспорта: ";
 }

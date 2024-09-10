@@ -2,20 +2,20 @@
 
 
 Plane::Plane() : name(""),  type(""), volume(0), dimensions(), cities() {
-    cout << "Использован конструктор без параметров для объекта Plane\n";
+    cout << "Вызван конструктор без параметров для Plane класса\n";
 }
 
 Plane::Plane(const string& n, const string& t, const float& v, Dimensions& d, Cities& c) : 
     name(n), type(t), volume(v), dimensions(d), cities(c) {
-    cout << "Использован конструктор с параметрами для объекта Plane\n";
+    cout << "Вызван конструктор c параметрами для Plane класса\n";
 }
 
 Plane::Plane(const Plane& other) : name(other.name), type(other.type), volume(other.volume), dimensions(other.dimensions), cities(other.cities) {
-    cout << "Использован конструктор копирования для объекта Plane\n";
+    cout << "Вызван конструктор копирования для Plane класса\n";
 }
 
 Plane::~Plane() {
-    cout << "Использован деструктор для объекта Plane\n";
+    cout << "Вызван деструктор для Plane класса\n";
 }
 
 void Plane::set_name(string n) {
@@ -62,12 +62,11 @@ void Plane::display() {
     cout << "Название самолета: " << this->name << endl;
     cout << "Тип самолета: " << this->type << endl;
     cout << "Объем самолета: " << this->volume << endl;
-    cout << "Габариты самолета: ";
+    cout << "Габариты самолета: " << endl;
     this->dimensions.display_demensions();
     cout << endl;
-    cout << "Список городов: ";
+    cout << "Список городов: " << endl;
     this->cities.display_cities();
-    cout << endl;
 }
 
 void Plane::change_info() {

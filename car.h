@@ -1,7 +1,9 @@
+#pragma once
+
 #include "cargomover.h"
 #include "cities.h"
 #include <cstdlib>
-#pragma once
+
 class Car: public Cargomover
 {
 private:

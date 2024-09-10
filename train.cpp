@@ -1,12 +1,16 @@
 #include "train.h"
 
-Train::Train() : name(""), year(0), cities(), vans(0), volume(0) {}
+Train::Train() : name(""), year(0), cities(), vans(0), volume(0) {cout << "Вызван конструктор без параметров для Train класса\n";}
 
-Train::Train(const string& n, const int& y, Cities& c, const int& van, const float& v) : name(n), year(y), cities(c), vans(van), volume(v) {}
+Train::Train(const string& n, const int& y, Cities& c, const int& van, const float& v) : name(n), year(y), cities(c), vans(van), volume(v) {
+    cout << "Вызван конструктор c параметрами для Train класса\n";
+}
 
-Train::Train(const Train& other) : name(other.name), year(other.year), cities(other.cities), vans(other.vans), volume(other.volume) {}
+Train::Train(const Train& other) : name(other.name), year(other.year), cities(other.cities), vans(other.vans), volume(other.volume) {
+    cout << "Вызван конструктор копирования для Train класса\n";
+}
 
-Train::~Train() {}
+Train::~Train() {cout << "Вызван деструктор для Train класса\n";}
 
 void Train::set_name(string n) {
     this->name = n;
@@ -51,9 +55,8 @@ float Train::get_volume() {
 void Train::display() {
     cout << "Название поезда: " << this->name << endl;
     cout << "Год выпуска: " << this->year << endl;
-    cout << "Маршрут следования: ";
+    cout << "Маршрут следования: " << endl;
     this->cities.display_cities();
-    cout << endl;
     cout << "Количество поездов: " << this->vans << endl;
     cout << "Объем груза: " << this->volume << endl;
 }
@@ -76,12 +79,12 @@ void Train::change_info() {
 
     switch (choice) {
         case 1:
-            cout << "Введите новое название: ";
+            cout << "Введите новое название: " << endl;
             getline(cin, newName);
             set_name(newName);
             break;
         case 2:
-            cout << "Введите новый год выпуска: ";
+            cout << "Введите новый год выпуска: " << endl;
             cin >> newYear;
             set_year(newYear);
             break;
@@ -91,12 +94,12 @@ void Train::change_info() {
             set_cities(newCities);
             break;
         case 4:
-            cout << "Введите новое количество вагонов: ";
+            cout << "Введите новое количество вагонов: " << endl;
             cin >> newVans;
             set_vans(newVans);
             break;
         case 5:
-            cout << "Введите новый объем: ";
+            cout << "Введите новый объем: " << endl;
             cin >> newVolume;
             set_volume(newVolume);
             break;
@@ -110,7 +113,7 @@ void Train::change_info() {
 }
 
 void Train::save_to_file(ostream& out) {
-    out << "Train\n";  // Маркер для типа Train
+    out << "Train\n";
     out << name << '\n' << year << '\n';
     cities.save_to_file(out);
     out << vans << '\n' << volume << '\n';

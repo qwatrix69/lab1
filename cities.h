@@ -1,7 +1,9 @@
+#pragma once
+
 #include <iostream>
 #include <cstdlib>
 #include <cstring>
-#pragma once
+
 using namespace std;
 
 class Cities
