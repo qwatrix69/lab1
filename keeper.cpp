@@ -97,7 +97,7 @@ Keeper& Keeper::operator++() {
             cout << "Введите год выпуска: ";
             cin >> year;
             cin.ignore();
-            cout << "Введите полный маршрут: ";
+            cout << "Введите полный маршрут: " << endl;
             cities.input_cities();
             cout << "Введите количество вагонов: ";
             cin >> vans;
