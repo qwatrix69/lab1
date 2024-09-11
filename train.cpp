@@ -1,4 +1,5 @@
 #include "train.h"
+#include "check.h"
 
 Train::Train() : name(""), year(0), cities(), vans(0), volume(0) {cout << "Вызван конструктор без параметров для Train класса\n";}
 
@@ -74,40 +75,44 @@ void Train::change_info() {
     cout << "4. Количество вагонов" << endl;
     cout << "5. Объем груза" << endl;
     cout << "0. Выход" << endl;
-    cin >> choice;
-    cin.ignore();
+    choice = check_input();
 
     switch (choice) {
         case 1:
             cout << "Введите новое название: " << endl;
             getline(cin, newName);
             set_name(newName);
+            cout << "Данные успешно изменены" << endl;
             break;
         case 2:
             cout << "Введите новый год выпуска: " << endl;
-            cin >> newYear;
+            newYear = check_input();
             set_year(newYear);
+            cout << "Данные успешно изменены" << endl;
             break;
         case 3:
             cout << "Введите новый маршрут следования" << endl;
             newCities.input_cities();
             set_cities(newCities);
+            cout << "Данные успешно изменены" << endl;
             break;
         case 4:
             cout << "Введите новое количество вагонов: " << endl;
-            cin >> newVans;
+            newVans = check_input();
             set_vans(newVans);
+            cout << "Данные успешно изменены" << endl;
             break;
         case 5:
             cout << "Введите новый объем: " << endl;
-            cin >> newVolume;
+            newVolume = check_input();
             set_volume(newVolume);
+            cout << "Данные успешно изменены" << endl;
             break;
         case 0:
-            cout << "Выход из редактирования." << endl;
+            cout << "Выход из редактирования" << endl;
             break;
         default:
-            cout << "Неверный выбор." << endl;
+            cout << "Неверный выбор. Попробуйте снова" << endl;
             break;
     }
 }

@@ -1,10 +1,10 @@
 #include <iostream>
-#include <string>
-
+#include <stdexcept>
 #include "keeper.h"
 #include "plane.h"
 #include "train.h"
 #include "car.h"
+#include "check.h"
 
 using namespace std;
 
@@ -28,55 +28,73 @@ int main() {
     int choice = -1;
 
     while (choice != 0) {
-        display_main_menu();
-        cin >> choice;
+        try {
+            display_main_menu();
+            choice = check_input();
 
-        switch (choice) {
-            case 1: {
-                keeper++;
-                break;
+            switch (choice) {
+                case 1: {
+                    keeper++;
+                    break;
+                }
+                case 2: {
+                    ++keeper;
+                    break;
+                }
+                case 3: {
+                    cout << "Введите номер транспорта для удаления: ";
+                    int index = check_input();
+                    keeper.delete_element(index); 
+                    break;
+                }
+                case 4: {
+                    keeper--;
+                    break;
+                }
+                case 5: {
+                    --keeper;
+                    break;
+                }
+                case 6: {
+                    cout << "Введите номер транспорта для редактирования: ";
+                    int index = check_input();
+                    keeper.edit_element(index); 
+                    break;
+                }
+                case 7:
+                    keeper.display_keeper(); 
+                    break;
+                case 8: {
+                    try {
+                        keeper.save_to_file("out.csv");
+                    } catch (const runtime_error& e) {
+                        cerr << "Ошибка при сохранении файла: " << e.what() << endl;
+                    }
+                    break;
+                }
+                case 9: {
+                    try {
+                        keeper.load_from_file("in.csv");
+                    } catch (const runtime_error& e) {
+                        cerr << "Ошибка при загрузке файла: " << e.what() << endl;
+                    }
+                    break;
+                }
+                case 0:
+                    cout << "Выход из программы." << endl;
+                    break;
+                default:
+                    cout << "Неверный выбор! Попробуйте снова." << endl;
+                    break;
             }
-            case 2: {
-                ++keeper;
-                break;
-            }
-            case 3: {
-                int index;
-                cout << "Введите номер транспорта для удаления: ";
-                cin >> index;
-                keeper.delete_element(index); 
-                break;
-            }
-            case 4: {
-                keeper--;
-                break;
-            }
-            case 5: {
-                --keeper;
-                break;
-            }
-            case 6: {
-                int index;
-                cout << "Введите номер транспорта для редактирования: ";
-                cin >> index;
-                keeper.edit_element(index); 
-                break;
-            }
-            case 7:
-                keeper.display_keeper(); 
-                break;
-            case 8:
-                keeper.save_to_file("out.csv");
-                break;
-            case 9:
-                keeper.load_from_file("in.csv");
-                break;
-            case 0:
-                cout << "Выход из программы." << endl;
-                break;
-            default:
-                cout << "Неверный выбор! Попробуйте снова." << endl;
-                break;
+        } catch (const invalid_argument& e) {
+            cerr << "Ошибка: " << e.what() << endl;
+        } catch (const out_of_range& e) {
+            cerr << "Ошибка: " << e.what() << endl;
+        } catch (const runtime_error& e) {
+            cerr << "Ошибка: " << e.what() << endl;
+        } catch (...) {
+            cerr << "Неизвестная ошибка!" << endl;
         }
     }
 

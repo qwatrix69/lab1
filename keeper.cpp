@@ -1,4 +1,5 @@
 #include "keeper.h"
+#include "check.h"
 
 void display_add_menu();
 
@@ -63,8 +64,7 @@ Keeper& Keeper::operator++() {
     int add_choice = -1;
     while (add_choice != 0) {
         display_add_menu();
-        cin >> add_choice;
-        cin.ignore();
+        add_choice = check_input();
 
         if (add_choice == 1) {
             string name, type;
@@ -77,9 +77,7 @@ Keeper& Keeper::operator++() {
             cout << "Введите тип самолета: ";
             getline(cin, type);
             cout << "Введите объем груза: ";
-            cin >> volume;
-            cin.ignore();
-
+            volume = check_input();
             dimensions.input_dimensions();
             cin.ignore();
             cities.input_cities();
@@ -95,15 +93,13 @@ Keeper& Keeper::operator++() {
             cout << "Введите название поезда: ";
             getline(cin, name);
             cout << "Введите год выпуска: ";
-            cin >> year;
-            cin.ignore();
-            cout << "Введите полный маршрут: " << endl;
+            year = check_input();
+            cout << "Введите полный маршрут. ";
             cities.input_cities();
             cout << "Введите количество вагонов: ";
-            cin >> vans;
+            vans = check_input();
             cout << "Введите объем груза: ";
-            cin >> volume;
-            cin.ignore();
+            volume = check_input();
 
             Train* train = new Train(name, year, cities, vans, volume);
             add_to_start(train);
@@ -117,20 +113,25 @@ Keeper& Keeper::operator++() {
             cout << "Введите название автомобиля: ";
             getline(cin, name);
             cout << "Введите год выпуска: ";
-            cin >> year;
-            cin.ignore();
+            year = check_input();
             cout << "Введите марку автомобиля: ";
             getline(cin, firm);
             cout << "Введите модель автомобиля: ";
             getline(cin, model);
             cout << "Введите объем груза: ";
-            cin >> volume;
-            cin.ignore(); 
-
+            volume = check_input();
+            cout << "Введите полный маршрут. ";
             cities.input_cities();
 
             Car* car = new Car(name, year, firm, model, cities, volume);
             add_to_start(car);
+        }
+        else if (add_choice == 0) {
+            break;
+        }
+        else {
+            cout << "Введите корректное значение" << endl;
+            continue;
         }
     }
     return *this;
@@ -141,8 +142,7 @@ Keeper& operator++(Keeper& K, int) {
     int add_choice = -1;
     while (add_choice != 0) {
         display_add_menu();
-        cin >> add_choice;
-        cin.ignore();
+        add_choice = check_input();
 
         if (add_choice == 1) {
             string name, type;
@@ -155,9 +155,7 @@ Keeper& operator++(Keeper& K, int) {
             cout << "Введите тип самолета: ";
             getline(cin, type);
             cout << "Введите объем груза: ";
-            cin >> volume;
-            cin.ignore();
-
+            volume = check_input();
             dimensions.input_dimensions();
             cities.input_cities();
 
@@ -173,15 +171,13 @@ Keeper& operator++(Keeper& K, int) {
             cout << "Введите название поезда: ";
             getline(cin, name);
             cout << "Введите год выпуска: ";
-            cin >> year;
-            cin.ignore();
-            cout << "Введите полный маршрут: ";
+            year = check_input();
+            cout << "Введите полный маршрут. ";
             cities.input_cities();
             cout << "Введите количество вагонов: ";
-            cin >> vans;
+            vans = check_input();
             cout << "Введите объем груза: ";
-            cin >> volume;
-            cin.ignore();
+            volume = check_input();
 
             Train* train = new Train(name, year, cities, vans, volume);
             K.add(train);
@@ -195,20 +191,25 @@ Keeper& operator++(Keeper& K, int) {
             cout << "Введите название автомобиля: ";
             getline(cin, name);
             cout << "Введите год выпуска: ";
-            cin >> year;
-            cin.ignore();
+            year = check_input();
             cout << "Введите марку автомобиля: ";
             getline(cin, firm);
             cout << "Введите модель автомобиля: ";
             getline(cin, model);
             cout << "Введите объем груза: ";
-            cin >> volume;
-            cin.ignore(); 
-
+            volume  = check_input();
+            cout << "Введите полный маршрут. ";
             cities.input_cities();
 
             Car* car = new Car(name, year, firm, model, cities, volume);
             K.add(car);
+        }
+        else if (add_choice == 0) {
+            break;
+        }
+        else {
+            cout << "Введите корректное значение" << endl;
+            continue;
         }
     }
     return K;
@@ -219,10 +220,11 @@ Keeper& operator--(Keeper& K) {
         cout << "Данных нет. Невозможно удалить с начала" << endl;
         return K;
     }
-
+    
     Element* temp = K.head;
     K.head = K.head->next;
 
+    delete temp->data;
     delete temp;
     K.count--;
 

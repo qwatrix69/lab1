@@ -1,4 +1,5 @@
 #include "car.h"
+#include "check.h"
 
 Car::Car() : name(""), year(0), firm(""), model(""), cities(), volume(0) {cout << "Вызван конструктор без параметров для Car класса\n";}
 
@@ -83,45 +84,50 @@ void Car::change_info() {
     cout << "5. Маршрут следования" << endl;
     cout << "6. Объем груза" << endl;
     cout << "0. Выход" << endl;
-    cin >> choice;
-    cin.ignore();
+    choice = check_input();
 
     switch (choice) {
         case 1:
             cout << "Введите новое название: " << endl;
             getline(cin, newName);
             set_name(newName);
+            cout << "Данные успешно изменены" << endl;
             break;
         case 2:
             cout << "Введите новый год выпуска: " << endl;
-            cin >> newYear;
+            newYear = check_input();
             set_year(newYear);
+            cout << "Данные успешно изменены" << endl;
             break;
         case 3:
             cout << "Введите новое название марки: " << endl;
             getline(cin, newFirm);
             set_name(newFirm);
+            cout << "Данные успешно изменены" << endl;
             break;
         case 4:
             cout << "Введите новое название модели: " << endl;
             getline(cin, newModel);
             set_name(newModel);
+            cout << "Данные успешно изменены" << endl;
             break;
         case 5:
             cout << "Введите новый маршрут следования" << endl;
             newCities.input_cities();
             set_cities(newCities);
+            cout << "Данные успешно изменены" << endl;
             break;
         case 6:
             cout << "Введите новый объем: " << endl;
-            cin >> newVolume;
+            newVolume = check_input();
             set_volume(newVolume);
+            cout << "Данные успешно изменены" << endl;
             break;
         case 0:
-            cout << "Выход из редактирования." << endl;
+            cout << "Выход из редактирования" << endl;
             break;
         default:
-            cout << "Неверный выбор. Попробуйте снова." << endl;
+            cout << "Неверный выбор. Попробуйте снова" << endl;
             break;
     }
 }

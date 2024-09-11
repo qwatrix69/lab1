@@ -1,5 +1,5 @@
 #include "plane.h"
-
+#include "check.h"
 
 Plane::Plane() : name(""),  type(""), volume(0), dimensions(), cities() {
     cout << "Вызван конструктор без параметров для Plane класса\n";
@@ -83,40 +83,44 @@ void Plane::change_info() {
     cout << "4. Габариты" << endl;
     cout << "5. Список городов" << endl;
     cout << "0. Выход" << endl;
-    cin >> choice;
-    cin.ignore();
+    choice = check_input();
 
     switch (choice) {
         case 1:
             cout << "Введите новое название: ";
             getline(cin, newName);
             set_name(newName);
+            cout << "Данные успешно изменены" << endl;
             break;
         case 2:
             cout << "Введите новый тип: ";
             getline(cin, newType);
             set_type(newType);
+            cout << "Данные успешно изменены" << endl;
             break;
         case 3:
             cout << "Введите новый объем: ";
-            cin >> newVolume;
+            newVolume = check_input();
             set_volume(newVolume);
+            cout << "Данные успешно изменены" << endl;
             break;
         case 4:
             cout << "Введите новые габариты:" << endl;
             newDimensions.input_dimensions();
             set_dimensions(newDimensions);
+            cout << "Данные успешно изменены" << endl;
             break;
         case 5:
             cout << "Введите новый список городов:" << endl;
             newCities.input_cities();
             set_cities(newCities);
+            cout << "Данные успешно изменены" << endl;
             break;
         case 0:
-            cout << "Выход из редактирования." << endl;
+            cout << "Выход из редактирования" << endl;
             break;
         default:
-            cout << "Неверный выбор." << endl;
+            cout << "Неверный выбор. Попробуйте снова" << endl;
             break;
     }
 }

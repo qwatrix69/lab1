@@ -1,4 +1,5 @@
 #include "cities.h"
+#include "check.h"
 
 Cities::Cities() : cities(nullptr), size(0), capacity(0) {}
 
@@ -113,14 +114,12 @@ void Cities::input_cities() {
 
     int num_cities;
     cout << "Введите количество городов: ";
-    cin >> num_cities;
-    cin.ignore();
+    num_cities = check_input();;
 
     for (int i = 0; i < num_cities; ++i) {
         string city;
-        cout << "Введите название города #" << (i + 1) << ": ";
+        cout << "Введите название города №" << (i + 1) << ": ";
         getline(cin, city);
-
         add_city(city.c_str());
     }
 }
