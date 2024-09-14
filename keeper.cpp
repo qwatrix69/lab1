@@ -301,7 +301,6 @@ Keeper& Keeper::edit_element(int n) {
     }
 
     if (temp->data) {
-        cout << "Данные изменены для элемента с индексом" << n << endl;
         temp->data->change_info(); 
     } else {
         cout << "Данных нет" << endl;

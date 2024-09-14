@@ -1,12 +1,16 @@
 #include "dimensions.h"
 
-Dimensions::Dimensions() : length(0), width(0), height(0) {}
+Dimensions::Dimensions() : length(0), width(0), height(0) {cout << "Вызван конструктор без параметров для Dimensions класса\n";}
 
-Dimensions::Dimensions(float& l, float& w, float& h) : length(l), width(w), height(h) {}
+Dimensions::Dimensions(float& l, float& w, float& h) : length(l), width(w), height(h) {
+    cout << "Вызван конструктор c параметрами для Dimensions класса\n";
+}
 
-Dimensions::Dimensions(const Dimensions& other) : length(other.length), width(other.width), height(other.height) {}
+Dimensions::Dimensions(const Dimensions& other) : length(other.length), width(other.width), height(other.height) {
+    cout << "Вызван конструктор копирования для Dimensions класса\n";
+}
 
-Dimensions::~Dimensions() {}
+Dimensions::~Dimensions() {cout << "Вызван деструктор для Dimensions класса\n";}
     
 void Dimensions::display_demensions() {
     cout << "Длина: " << this->length << endl;

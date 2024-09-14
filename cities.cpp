@@ -1,7 +1,7 @@
 #include "cities.h"
 #include "check.h"
 
-Cities::Cities() : cities(nullptr), size(0), capacity(0) {}
+Cities::Cities() : cities(nullptr), size(0), capacity(0) {cout << "Вызван конструктор без параметров для Cities класса\n";}
 
 Cities::Cities(int& c) : size(c), capacity(c) {
     cities = new char*[c];
@@ -9,6 +9,7 @@ Cities::Cities(int& c) : size(c), capacity(c) {
         cerr << "Ошибка выделения памяти!" << endl;
         exit(1);
     }
+    cout << "Вызван конструктор c параметрами для Cities класса\n";
 }
 
 Cities::Cities(const Cities& other) : size(other.size), capacity(other.capacity) {
@@ -26,10 +27,12 @@ Cities::Cities(const Cities& other) : size(other.size), capacity(other.capacity)
         }
         strcpy(cities[i], other.cities[i]);
     }
+    cout << "Вызван конструктор копирования для Cities класса\n";
 }
 
 Cities::~Cities() {
     clear_cities();
+    cout << "Вызван деструктор для Cities класса\n";
 }
 
 void Cities::resize() {
