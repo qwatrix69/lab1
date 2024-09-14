@@ -7,8 +7,6 @@ using namespace std;
 
 class Cargomover
 {
-private:
-    string name;
 public:
     Cargomover();
     Cargomover(const string& n);
