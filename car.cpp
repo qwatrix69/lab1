@@ -133,7 +133,7 @@ void Car::change_info() {
 }
 
 void Car::save_to_file(ostream& out) {
-    out << "Train\n";
+    out << "Car\n";
     out << name << '\n' << year << '\n' << firm << '\n' << model << '\n';
     cities.save_to_file(out);
     out << volume << '\n';
